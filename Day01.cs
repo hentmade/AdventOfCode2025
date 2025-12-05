@@ -1,60 +1,133 @@
-﻿string inputFile = "01a_input.txt";
-string inputPath = Path.Combine("input", inputFile);
-
-List<string> rotations = File.ReadAllLines(inputPath).ToList();
-
-int lowestPos = 0;
-int highestPos = 99;
-int currentPosition = 50;
-int previousPosition = 50;
-int countZeros = 0;
-
-foreach (var rot in rotations)
+﻿namespace aoc
 {
-    string direction = rot.Substring(0, 1);
-    string sSteps = rot.Substring(1, rot.Length - 1);
-    if (int.TryParse(sSteps, out int steps))
+    public class Day01 : IDay
     {
-        previousPosition = currentPosition;
-
-        countZeros += steps / (highestPos + 1);
-        steps %= highestPos + 1;
-
-        if (direction.Equals("L"))
+        public Int64 RunPart1()
         {
-            currentPosition -= steps;
-            if (currentPosition < lowestPos)
+            string inputFile = "01a_input.txt";
+            string inputPath = Path.Combine("input", inputFile);
+
+            List<string> rotations = File.ReadAllLines(inputPath).ToList();
+
+            int lowestPos = 0;
+            int highestPos = 99;
+            int currentPosition = 50;
+            int previousPosition = 50;
+            int countZeros = 0;
+
+            foreach (var rot in rotations)
             {
-                currentPosition += highestPos + 1;
-                if (previousPosition != 0 && currentPosition != 0)
+                string direction = rot.Substring(0, 1);
+                string sSteps = rot.Substring(1, rot.Length - 1);
+                if (int.TryParse(sSteps, out int steps))
                 {
-                    countZeros++;
+                    previousPosition = currentPosition;
+
+                    countZeros += steps / (highestPos + 1);
+                    steps %= highestPos + 1;
+
+                    if (direction.Equals("L"))
+                    {
+                        currentPosition -= steps;
+                        if (currentPosition < lowestPos)
+                        {
+                            currentPosition += highestPos + 1;
+                            if (previousPosition != 0 && currentPosition != 0)
+                            {
+                                countZeros++;
+                            }
+                        }
+                    }
+                    else if (direction.Equals("R"))
+                    {
+                        currentPosition += steps;
+                        if (currentPosition > highestPos)
+                        {
+                            currentPosition -= highestPos + 1;
+                            if (previousPosition != 0 && currentPosition != 0)
+                            {
+                                countZeros++;
+                            }
+                        }
+                    }
+
+                    if (currentPosition == 0)
+                    {
+                        countZeros++;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Error");
+                    break;
                 }
             }
-        }
-        else if (direction.Equals("R"))
-        {
-            currentPosition += steps;
-            if (currentPosition > highestPos)
-            {
-                currentPosition -= highestPos + 1;
-                if (previousPosition != 0 && currentPosition != 0)
-                {
-                    countZeros++;
-                }
-            }
+
+            return countZeros;
         }
 
-        if (currentPosition == 0)
+        public Int64 RunPart2()
         {
-            countZeros++;
+            string inputFile = "01a_input.txt";
+            string inputPath = Path.Combine("input", inputFile);
+
+            List<string> rotations = File.ReadAllLines(inputPath).ToList();
+
+            int lowestPos = 0;
+            int highestPos = 99;
+            int currentPosition = 50;
+            int previousPosition = 50;
+            int countZeros = 0;
+
+            foreach (var rot in rotations)
+            {
+                string direction = rot.Substring(0, 1);
+                string sSteps = rot.Substring(1, rot.Length - 1);
+                if (int.TryParse(sSteps, out int steps))
+                {
+                    previousPosition = currentPosition;
+
+                    countZeros += steps / (highestPos + 1);
+                    steps %= highestPos + 1;
+
+                    if (direction.Equals("L"))
+                    {
+                        currentPosition -= steps;
+                        if (currentPosition < lowestPos)
+                        {
+                            currentPosition += highestPos + 1;
+                            if (previousPosition != 0 && currentPosition != 0)
+                            {
+                                countZeros++;
+                            }
+                        }
+                    }
+                    else if (direction.Equals("R"))
+                    {
+                        currentPosition += steps;
+                        if (currentPosition > highestPos)
+                        {
+                            currentPosition -= highestPos + 1;
+                            if (previousPosition != 0 && currentPosition != 0)
+                            {
+                                countZeros++;
+                            }
+                        }
+                    }
+
+                    if (currentPosition == 0)
+                    {
+                        countZeros++;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Error");
+                    break;
+                }
+            }
+
+            return countZeros;
         }
-    }
-    else
-    {
-        Console.WriteLine("Error");
-        break;
     }
 }
-
-Console.WriteLine("Zeros: " + countZeros);
